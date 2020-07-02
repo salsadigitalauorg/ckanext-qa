@@ -2,3 +2,9 @@ xlrd==1.0.0
 python-magic==0.4.12
 messytables==0.15.2
 progressbar==2.3
+SQLAlchemy>=0.6.6
+requests==2.11.1
+six==1.11.0
+
+-e git+https://github.com/ckan/ckanext-archiver.git@2.0.0#egg=ckanext-archiver
+-e git+https://github.com/ckan/ckanext-report.git@0.1#egg=ckanext-report
