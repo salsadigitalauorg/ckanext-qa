@@ -41,5 +41,15 @@ setup(
 
     [ckan.celery_task]
     tasks=ckanext.qa.celery_import:task_imports
+
+    [babel.extractors]
+    ckan = ckan.lib.extract:extract_ckan
     ''',
+    message_extractors={
+        'ckanext': [
+            ('**.py', 'python', None),
+            ('**.js', 'javascript', None),
+            ('**/templates/**.html', 'ckan', None),
+        ],
+    }
 )
