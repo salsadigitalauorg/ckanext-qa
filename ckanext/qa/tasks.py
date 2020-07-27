@@ -17,6 +17,7 @@ import ckan.lib.helpers as ckan_helpers
 from sniff_format import sniff_file_format
 import lib
 from ckanext.archiver.model import Archival, Status
+from ckanext.qa import interfaces as qa_interfaces
 
 import logging
 
@@ -62,6 +63,7 @@ def register_translator():
     translator_obj = MockTranslator()
     registry.register(translator, translator_obj)
 
+
 def load_config(ckan_ini_filepath):
     import paste.deploy
     config_abs_path = os.path.abspath(ckan_ini_filepath)
@@ -89,7 +91,7 @@ def load_translations(lang):
     registry.prepare()
 
     class FakePylons:
-            translator = None
+        translator = None
     fakepylons = FakePylons()
 
     class FakeRequest:
@@ -284,7 +286,9 @@ def resource_score(resource):
         'archival_timestamp': archival_updated
     }
 
-    return result
+    custom_result = custom_resource_score(resource, result)
+
+    return custom_result or result # if custom_result is None return normal result
 
 
 def broken_link_error_message(archival):
@@ -500,3 +504,10 @@ def save_qa_result(resource, qa_result):
 
     log.info('QA results updated ok')
     return qa  # for tests
+
+
+def custom_resource_score(resource, resource_score):
+    '''
+    Broadcasts an IQA notification that an qa resource score was calculated
+    '''
+    return qa_interfaces.IQA.custom_resource_score(resource, resource_score)
