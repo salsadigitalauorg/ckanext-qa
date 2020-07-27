@@ -7,9 +7,8 @@ env:
 #    - CKAN_GIT_REPO=ckan/ckan CKANVERSION=master ARCHIVER_GIT_REPO=ckan ARCHIVER_BRANCH=master REPORT_GIT_REPO=datagovuk REPORT_BRANCH=master
 #    - CKAN_GIT_REPO=ckan/ckan CKANVERSION=2.6 ARCHIVER_GIT_REPO=ckan ARCHIVER_BRANCH=master REPORT_GIT_REPO=datagovuk REPORT_BRANCH=master
 #    - CKAN_GIT_REPO=ckan/ckan CKANVERSION=2.7 ARCHIVER_GIT_REPO=ckan ARCHIVER_BRANCH=master REPORT_GIT_REPO=datagovuk REPORT_BRANCH=master
-#    - CKAN_GIT_REPO=ckan/ckan CKANVERSION=master ARCHIVER_GIT_REPO=ckan ARCHIVER_BRANCH=master REPORT_GIT_REPO=datagovuk REPORT_BRANCH=master
     - CKAN_GIT_REPO=ckan/ckan CKANVERSION=2.8 ARCHIVER_GIT_REPO=ckan ARCHIVER_BRANCH=master REPORT_GIT_REPO=datagovuk REPORT_BRANCH=master
-#    - CKAN_GIT_REPO=qld-gov-au/ckan CKAN_BRANCH=qgov-master ARCHIVER_GIT_REPO=ckan ARCHIVER_BRANCH=master REPORT_GIT_REPO=qld-gov-au REPORT_BRANCH=develop
+    - CKAN_GIT_REPO=qld-gov-au/ckan CKAN_BRANCH=qgov-master ARCHIVER_GIT_REPO=qld-gov-au ARCHIVER_BRANCH=2.1.0-qgov.1 REPORT_GIT_REPO=qld-gov-au REPORT_BRANCH=0.1
     - CKAN_GIT_REPO=qld-gov-au/ckan CKAN_BRANCH=qgov-master ARCHIVER_GIT_REPO=qld-gov-au ARCHIVER_BRANCH=develop REPORT_GIT_REPO=qld-gov-au REPORT_BRANCH=develop
 services:
   - redis-server
@@ -39,5 +38,11 @@ jobs:
         - sh bin/travis-flake.sh
       script:
         -  sh bin/travis-flake-run.sh
+    - stage: master python3
+      env: CKAN_GIT_REPO=ckan/ckan ARCHIVER_GIT_REPO=ckan ARCHIVER_BRANCH=master REPORT_GIT_REPO=datagovuk REPORT_BRANCH=master
+      python: "3.6"
+  allow_failures:
+    - env: CKAN_GIT_REPO=ckan/ckan ARCHIVER_GIT_REPO=ckan ARCHIVER_BRANCH=master REPORT_GIT_REPO=datagovuk REPORT_BRANCH=master
+      python: "3.6"
 
 cache: pip
