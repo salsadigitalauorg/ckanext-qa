@@ -28,14 +28,10 @@ if [ ! -d ckan ]; then
     #remote lookup tags, and get latest by version-sort
     CKAN_TAG=$(git ls-remote --tags https://github.com/$CKAN_GIT_REPO | grep refs/tags/ckan-$CKANVERSION | awk '{print $2}'| sort --version-sort | tail -n 1 | sed  's|refs/tags/||' )
     echo "CKAN tag version $CKANVERSION is: ${CKAN_TAG#ckan-}"
-    cmd="git clone --depth=50 --branch=$CKAN_TAG https://github.com/$CKAN_GIT_REPO ckan"
-    echo $cmd
-    eval $cmd
+    git clone --depth=50 --branch=$CKAN_TAG https://github.com/$CKAN_GIT_REPO ckan
   else
     echo "CKAN version: $CKAN_BRANCH"
-    cmd="git clone --depth=50 --branch=$CKAN_BRANCH https://github.com/$CKAN_GIT_REPO ckan"
-    echo $cmd
-    eval $cmd
+    git clone --depth=50 --branch=$CKAN_BRANCH https://github.com/$CKAN_GIT_REPO ckan
   fi
 fi
 
@@ -76,7 +72,6 @@ pip install -r dev-requirements.txt
 python setup.py develop
 
 echo "Installing dependency ckanext-report and its requirements..."
-#pip install -e git+https://github.com/datagovuk/ckanext-report.git#egg=ckanext-report
 if [ ! -d ckanext-report ]; then
   git clone --depth=50 --branch=$REPORT_BRANCH https://github.com/$REPORT_GIT_REPO/ckanext-report ckanext-report
 fi
@@ -90,7 +85,6 @@ pushd ckanext-report
 popd
 
 echo "Installing dependency ckanext-archiver and its requirements..."
-#git clone https://github.com/$ARCHIVER_GIT_REPO/ckanext-archiver
 if [ ! -d ckanext-archiver ]; then
   git clone --depth=50 --branch=$ARCHIVER_BRANCH https://github.com/$ARCHIVER_GIT_REPO/ckanext-archiver ckanext-archiver
 fi
