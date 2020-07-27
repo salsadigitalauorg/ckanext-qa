@@ -41,6 +41,10 @@ fi
 
 pushd ckan
 
+if [ $ver -eq 3 ]; then
+pip install -r requirement-setuptools.txt
+fi
+
 if [ -f requirements-py2.txt ] && [ $ver -eq 2 ]; then
     pip install -r requirements-py2.txt
 else
