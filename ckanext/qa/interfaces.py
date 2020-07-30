@@ -8,7 +8,7 @@ log = logging.getLogger(__name__)
 
 class IQA(Interface):
     """
-    Interface for other plugins to hook into and apply their own custom resource score before its saved
+    Interface for other plugins to hook into and apply their own custom resource score before it's saved
     """
 
     @classmethod
